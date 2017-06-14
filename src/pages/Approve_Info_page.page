@@ -1,0 +1,16 @@
+<apex:page >
+    <apex:includeLightning />
+
+    <div id="lightning" />
+
+    <script>
+        $Lightning.use("c:Approve_Info_app", function() {
+          $Lightning.createComponent("c:Approve_Info_cmp",
+          { },
+          "lightning",
+          function(cmp) {
+            // do some stuff
+          });
+        });
+     </script>
+</apex:page>

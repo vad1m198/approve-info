@@ -1,0 +1,10 @@
+<aura:component>
+
+	<aura:attribute name="apiName" type="String" access="public"/>
+	<aura:attribute name="recordIds" type="String[]" access="public"/>
+	
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+	
+	<aura:registerEvent name="loadRecords" type="c:LoadObjectRecords_evt"/>
+	
+</aura:component>

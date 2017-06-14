@@ -1,0 +1,41 @@
+<aura:component implements="force:appHostable" controller="Approve_Info_Controller">
+
+	<aura:attribute name="_messageText" type="String" access="private" default=""/>
+	<aura:attribute name="_messageSeverity" type="String" access="private" default="info"/>
+	<aura:attribute name="_showSpinner" type="Boolean" access="private" default="true"/>
+	
+	<aura:attribute name="approveInfo" type="Object[]" access="public"/>
+
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+	
+	<aura:handler name="loadRecords" event="c:LoadObjectRecords_evt" action="{!c.loadObjectRecords}"/>
+	
+	<div>
+		<aura:if isTrue="{!v._showSpinner}">
+			<lightning:spinner variant="brand" size="large" alternativeText="loading..."/>
+		</aura:if>
+		
+		<aura:if isTrue="{!not(empty(v._messageText))}">
+			<ui:message title="{!v._messageSeverity}" severity="{!v._messageSeverity}">
+				{!v._messageText}
+			</ui:message>
+		</aura:if>
+		
+		<aura:if isTrue="{!v.approveInfo.length == 0}">			
+			<ui:outputText value="No records for approve were found"/>
+		</aura:if>
+		
+		<aura:if isTrue="{!v.approveInfo.length > 0}">
+			<lightning:tabset>
+				<aura:iteration items="{!v.approveInfo}" var="pr">
+					<lightning:tab id="{!pr.apiName}">
+						<aura:set attribute="label"><ui:outputText value="{!pr.label+' ('+ pr.recordIds.length + ')'}"/></aura:set>
+						<c:Object_Details_cmp apiName="{!pr.apiName}" recordIds="{!pr.recordIds}"/>
+					</lightning:tab>
+				</aura:iteration>
+			</lightning:tabset>
+		</aura:if>
+		
+	</div>
+	
+</aura:component>
