@@ -27,8 +27,7 @@
 	    		 var aErrors = oResponse.getError();
 	    		if (aErrors) {
 	    			if (aErrors[0] && aErrors[0].message) {
-	    				console.log('Error >>> ', aErrors[0].message);
-	    				showMessage(oCmp, aErrors[0].message, 'error');
+	    				console.log('Error >>> ', aErrors[0].message);	    				
 	                }
 	    		}
 	    		if (typeof(fError) == 'function') {
@@ -38,7 +37,7 @@
 	    });
 	    $A.enqueueAction(oAction);
 	},
-	showMessage: function(oCmp, sMessage, sSeverity) {
+	showMessage: function(oCmp, sMessage, sSeverity) {		
 		oCmp.set("v._messageText", sMessage);
 		oCmp.set("v._messageSeverity", sSeverity);
 		if(sSeverity != 'error') {
@@ -47,7 +46,6 @@
 			        oCmp.set("v._messageText", "");
 			    }), 3000
 			);
-		}		
-
+		}
 	},
 })

@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event to use when need to make async call" >
+	<aura:attribute name="jsonData" type="String"/>
+    <aura:attribute name="showErrorInComponent" type="Boolean"/>
+    <aura:attribute name="component" type="Object"/>
+</aura:event>

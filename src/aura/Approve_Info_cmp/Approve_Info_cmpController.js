@@ -11,7 +11,7 @@
 		oHelper._request(oCmp, oParams, fHandleSuccess,oError=>oHelper.showMessage(oCmp, oError.message, 'error') );
 	},
 	
-	loadObjectRecords: function(oCmp, oEvent, oHelper) {	
+	/*loadObjectRecords: function(oCmp, oEvent, oHelper) {	
 		var oParams = {
 				event: 'loadObjectRecords',
 				apiName : oEvent.getParam("apiName"),
@@ -24,5 +24,23 @@
 		};
 		
 		oHelper._request(oCmp, oParams, fHandleSuccess,oError=>oHelper.showMessage(oCmp, oError.message, 'error') );
+	},*/
+	loadData : function(oCmp, oEvent, oHelper) {
+		var oParams = JSON.parse(oEvent.getParam("jsonData"));
+		var showErrorInCmp = oEvent.getParam("showErrorInComponent");
+		var oTargetCmp = oEvent.getParam("component");
+		console.log('load data >>> ', oParams);
+		var fHandleSuccess = oResult => {
+			if (oTargetCmp) oTargetCmp.handleRemoteSuccess(oResult);
+		}
+		
+		var fHandleError = oError => {
+			if(!showErrorInCmp) {
+				var sMessage = [].concat(oError)[0].message;
+				oHelper.showMessage(oCmp, sMessage, 'error')
+			}
+			if (oTargetCmp) oTargetCmp.handleRemoteError(sMessage);
+		};
+		oHelper._request(oCmp, oParams, fHandleSuccess, fHandleError);
 	}
 })

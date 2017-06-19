@@ -1,0 +1,12 @@
+<aura:component>
+
+	<aura:attribute name="fieldApiName" type="String" access="public"/>
+	<aura:attribute name="record" type="Object" access="public"/>
+	
+	<aura:attribute name="_value" type="String" access="private" default=""/>
+		
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+	
+	<ui:outputText value="{!v._value}" title="{!v._value}"/>
+
+</aura:component>

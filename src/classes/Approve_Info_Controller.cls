@@ -71,7 +71,7 @@ public with sharing class Approve_Info_Controller {
     	oResult.put('status', 'success');
     	oResult.put('aRecords', JSON.serialize(Database.query(queryStr)));
     	oResult.put('aFields', info.FieldsToShow__c);
-    	oResult.put('aFieldsDescribe', JSON.serialize(mapFieldApiToLabel));
+    	oResult.put('oFieldsDescribe', JSON.serialize(mapFieldApiToLabel));
     	return oResult;
     }
     

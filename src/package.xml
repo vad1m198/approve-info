@@ -10,9 +10,12 @@
     </types>
     <types>
         <members>Object_Details_cmp</members>
-		<members>LoadObjectRecords_evt</members>
+		<members>LoadDataRemote_evt</members>
 		<members>Approve_Info_cmp</members>
 		<members>Approve_Info_app</members>
+		<members>Object_Details_cmp</members>
+		<members>RecordFieldValue_cmp</members>
+		<members>Remote_Abstract_cmp</members>
         <name>AuraDefinitionBundle</name>
     </types>
     <version>38.0</version>

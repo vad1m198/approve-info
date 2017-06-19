@@ -1,4 +1,0 @@
-<aura:event type="COMPONENT" description="Used to load OBject records from object details component">
-	<aura:attribute name="apiName" type="String"/>
-	<aura:attribute name="recordIds" type="String[]"/>
-</aura:event>

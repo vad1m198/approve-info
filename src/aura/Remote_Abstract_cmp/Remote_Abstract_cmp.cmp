@@ -1,0 +1,15 @@
+<aura:component extensible="true"  abstract="true">
+
+	<aura:method name="handleRemoteSuccess" action="{!c.handleRemoteSuccess}" description="method to handle success remote call"> 
+	    <aura:attribute name="response" type="Object[]"/>
+	</aura:method>
+	
+	<aura:method name="handleRemoteError" action="{!c.handleRemoteError}" description="method to handle failed remote call"> 
+	   <aura:attribute name="message" type="String"/>
+	</aura:method>
+	
+	<aura:registerEvent name="loadDataRemote" type="c:LoadDataRemote_evt"/>
+	
+	{!v.body}
+	
+</aura:component>
