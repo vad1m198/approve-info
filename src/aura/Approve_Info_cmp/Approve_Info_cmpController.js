@@ -10,21 +10,7 @@
 		};
 		oHelper._request(oCmp, oParams, fHandleSuccess,oError=>oHelper.showMessage(oCmp, oError.message, 'error') );
 	},
-	
-	/*loadObjectRecords: function(oCmp, oEvent, oHelper) {	
-		var oParams = {
-				event: 'loadObjectRecords',
-				apiName : oEvent.getParam("apiName"),
-				recordIds : JSON.stringify(oEvent.getParam("recordIds"))
-		}
-		var fHandleSuccess = oResult => {			
-			console.log('aRecords >>> ', JSON.parse(oResult.aRecords));	
-			console.log('aFields >>> ', oResult.aFields);
-			console.log('aFieldsDescribe >>> ', JSON.parse(oResult.aFieldsDescribe));		
-		};
-		
-		oHelper._request(oCmp, oParams, fHandleSuccess,oError=>oHelper.showMessage(oCmp, oError.message, 'error') );
-	},*/
+
 	loadData : function(oCmp, oEvent, oHelper) {
 		var oParams = JSON.parse(oEvent.getParam("jsonData"));
 		var showErrorInCmp = oEvent.getParam("showErrorInComponent");
@@ -32,6 +18,16 @@
 		console.log('load data >>> ', oParams);
 		var fHandleSuccess = oResult => {
 			if (oTargetCmp) oTargetCmp.handleRemoteSuccess(oResult);
+			
+			if(oParams.event == 'processRecords') {
+				var aRecords = oCmp.get("v.approveInfo");
+				var oApproveInfo = aRecords.find(info => info.apiName == oParams.apiName);
+				if(oApproveInfo) {
+					var aSuccessRecords = JSON.parse(oResult.successRecordIds);
+					oApproveInfo.recordIds = oApproveInfo.recordIds.filter( id => aSuccessRecords.indexOf(id) == -1);
+					oCmp.set("v.approveInfo",aRecords);
+				}
+			}
 		}
 		
 		var fHandleError = oError => {

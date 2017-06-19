@@ -3,66 +3,12 @@
 	<aura:attribute name="apiName" type="String" access="public"/>
 	<aura:attribute name="recordIds" type="String[]" access="public"/>
 	
-	<aura:attribute name="_records" type="Object[]" access="private"/>
-	<aura:attribute name="_headers" type="Object[]" access="private"/>
-	<aura:attribute name="_isAllSelected" type="Boolean" access="private" default="false"/>
-	
-	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
-	
-	<div>
-		<table class="slds-table slds-table--bordered slds-table--fixed-layout slds-table--resizable-cols" role="grid">
-		  <thead>
-		    <tr class="slds-line-height--reset">
-		       <th scope="col" style="width:3.25rem;" class="slds-text-align--center">		        
-	        	<div class="slds-th__action slds-th__action--form">
-		          <span class="slds-checkbox">
-		            <input type="checkbox" name="options" id="{!v.apiName + '-checkbox'}" 
-		            		checked="{!v._isAllSelected}" onchange="{!c.handleSelectAll}"/>
-		            <label class="slds-checkbox__label" for="{!v.apiName + '-checkbox'}">
-		              <span class="slds-checkbox--faux"></span>
-		              <span class="slds-form-element__label slds-assistive-text">Select All</span>
-		            </label>
-		          </span>			        
-		        </div>
-		      </th>
-		      <aura:iteration items="{!v._headers}" var="h">
-		      	<th class="slds-text-title--caps" scope="col">
-		        	<div class="slds-truncate" title="{!h.label}">{!h.label}</div>
-		      	</th>
-		      </aura:iteration>
-		      
-		    </tr>
-		  </thead>	
-		  <tbody>
-			  <aura:iteration items="{!v._records}" var="t">
-			  	<tr class="{!t._isSelected ? 'slds-is-selected' : ''}">
-			  	
-				  <td class="slds-text-align--right" scope="row" data-label="Select">
-		        	<div class="slds-th__action slds-th__action--form" title="Select">
-			          <span class="slds-checkbox">
-			            <input type="checkbox" name="options" id="{!t.Id + 'checkbox'}" checked="{!t._isSelected}" 
-			            	   data-recordid="{!t.Id}" onchange="{!c.handleTCselect}"/>
-			            <label class="slds-checkbox__label" for="{!t.Id + 'checkbox'}">
-			              <span class="slds-checkbox--faux"></span>
-			              <span class="slds-form-element__label slds-assistive-text">Select</span>
-			            </label>
-			          </span>
-			        </div>		        
-			      </td>
-			  	
-			  	<aura:iteration items="{!v._headers}" var="h">
-			      <td role="gridcell">
-			       <div class="slds-truncate">
-		        		<c:RecordFieldValue_cmp fieldApiName="{!h.apiName}" record="{!t}"/>
-		        	</div>
-			      </td>
-		      	</aura:iteration>
+	<aura:attribute name="records" type="Object[]" access="private"/>
+	<aura:attribute name="headers" type="Object[]" access="private"/>
 
-			  	
-			  	
-			  	</tr>
-			  </aura:iteration>
-		  </tbody>
-		</table> 
-	</div>
-</aura:component>
+
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+			
+	<c:RecordsTable_cmp headers="{!v.headers}" records="{!v.records}" apiName="{!v.apiName}"/>
+	
+	</aura:component>

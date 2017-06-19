@@ -13,6 +13,8 @@ public with sharing class Approve_Info_Controller {
                 aResult = Approve_Info_Controller.getApproveInfo();
             } else if(sAction == 'loadObjectRecords') {
             	aResult = Approve_Info_Controller.getObjectRecords();
+            } else if(sAction == 'processRecords') {
+            	aResult = Approve_Info_Controller.processRecords();
             }
             
         } catch (QueryException e) {
@@ -115,6 +117,46 @@ public with sharing class Approve_Info_Controller {
     	oResult.put('aRecords', JSON.serialize(aRecords));
     	return oResult;
     }
+    
+    private static Map<String,String> processRecords() {
+    	Map<String,String> oResult = new Map<String,String>();
+    	String sRecordIds = Approve_Info_Controller.getRequest('sRecordIds','');
+    	String sProcessName = Approve_Info_Controller.getRequest('sProcessName','');
+    	String sComment = Approve_Info_Controller.getRequest('sComment','');
+    	List<Id> aRecordIds = (List<Id>) JSON.deserialize(sRecordIds, List<Id>.class);
+    	
+    	Approval.ProcessWorkitemRequest[] allReq = New Approval.ProcessWorkitemRequest[]{};
+    	for(ProcessInstanceWorkitem wi: [SELECT Id FROM ProcessInstanceWorkitem WHERE ProcessInstance.TargetObjectId IN:aRecordIds]) {
+    		Approval.ProcessWorkitemRequest req = new Approval.ProcessWorkitemRequest();
+    		req.setComments(sComment);
+    		if(sProcessName.equalsIgnoreCase('Approve')) {
+    			req.setAction('Approve');
+    		} else if(sProcessName.equalsIgnoreCase('Reject')){
+    			req.setAction('Reject');
+    		} else {
+    			throw new AuraHandledException('Invalid acction name for approval process: ' + sProcessName);
+    		}
+    		req.setWorkitemId(wi.Id);
+    		allReq.add(req);
+    	}
+    	Set<Id> successRecordIds = new Set<Id>();
+    	Set<Id> failedRecordIds = new Set<Id>();
+    	Approval.ProcessResult[] approvalResult =  Approval.process(allReq);
+    	for(Approval.ProcessResult apRes: approvalResult) {
+    		if(!apRes.isSuccess()) {
+    			failedRecordIds.add(apRes.getEntityId());
+    			System.debug('errors >>> ' + apRes.getEntityId() + ' ### ' + apRes.getErrors());
+    		} else {
+    			successRecordIds.add(apRes.getEntityId());
+    		}
+    	}
+    	
+    	oResult.put('status', 'success');
+    	oResult.put('successRecordIds', JSON.serialize(successRecordIds));
+    	oResult.put('failedRecordIds', JSON.serialize(failedRecordIds));
+	   	return oResult;
+    }
+    
     
     class ApproveInfo {
     	String apiName;

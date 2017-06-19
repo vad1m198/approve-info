@@ -2,9 +2,9 @@
 	doInit : function(oCmp, oEvent, oHelper) {
 		
 		var oParams = {
-				event: 'loadObjectRecords',
-				apiName: oCmp.get("v.apiName"),
-				recordIds: JSON.stringify(oCmp.get("v.recordIds"))
+			event: 'loadObjectRecords',
+			apiName: oCmp.get("v.apiName"),
+			recordIds: JSON.stringify(oCmp.get("v.recordIds"))
 		}
 		var loadEvent = oCmp.getEvent("loadDataRemote");
 	    loadEvent.setParams({ "jsonData" : JSON.stringify(oParams), "component" : oCmp, "showErrorInComponent":false });
@@ -23,37 +23,9 @@
 			console.log('aRecords >>> ',aRecords);
 			console.log('aHeaders >>> ',aHeaders);
 			
-			oCmp.set("v._records", aRecords);
-			oCmp.set("v._headers", aHeaders);
+			oCmp.set("v.records", aRecords);
+			oCmp.set("v.headers", aHeaders);
 		}
 	},
-	
-	handleSelectAll : function(oCmp, oEvent, oHelper) {		
-		var aRecords = oCmp.get("v._records");
-		if(aRecords) {
-			aRecords.forEach(r => r._isSelected = oEvent.target.checked);
-			oCmp.set("v._records", aRecords);
-			oCmp.set("v._isAllSelected", oEvent.target.checked);
-			
-		}
-	},
-	handleTCselect : function(oCmp, oEvent, oHelper) {
-		var aRecords = oCmp.get("v._records");
-		var sTargetId = oEvent.target.dataset.recordid;		
-		oRecord = aRecords.find(r => r.Id == sTargetId);
-		if(oRecord) {
-			oRecord._isSelected = oEvent.target.checked;
-			var oNonSelected = aRecords.find(r => !r._isSelected);
-			if(oNonSelected) {
-				oCmp.set("v._isAllSelected", false);
-			} else {
-				oCmp.set("v._isAllSelected", true);
-			}
-			
-			oCmp.set("v._records", aRecords);
-		}
-
-	},
-	
 	
 })

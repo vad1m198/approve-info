@@ -1,0 +1,81 @@
+<aura:component extends="c:Remote_Abstract_cmp">
+
+	<aura:attribute name="records" type="Object[]" access="public"/>
+	<aura:attribute name="headers" type="Object[]" access="public"/>
+	<aura:attribute name="apiName" type="String" access="public"/>
+	
+	<aura:attribute name="_selectedRecordsNumber" type="Integer" access="private" default="0"/>	
+	
+	<div>
+		<aura:if isTrue="{!v.records.length gt 0}">
+		<div class="process-area slds-m-bottom--small">
+			<lightning:textarea class="comments-area" aura:Id="comments-area" label="Comments" maxlength="80"/>
+			<div class="buttons slds-m-left--x-small">
+				<lightning:button variant="neutral" label="Approve" onclick="{!c.processRecords}" disabled="{!v._selectedRecordsNumber eq 0}"/>
+				<lightning:button class="slds-m-top--xx-small" variant="neutral" label="Reject" 
+								  onclick="{!c.processRecords}" disabled="{!v._selectedRecordsNumber eq 0}"/>
+			</div>
+		</div>	
+	
+		<table class="slds-table slds-table--bordered slds-table--fixed-layout slds-table--resizable-cols" role="grid">
+		  <thead>
+		    <tr class="slds-line-height--reset">
+		       <th scope="col" style="width:3.25rem;" class="slds-text-align--center">		        
+	        	<div class="slds-th__action slds-th__action--form">
+		          <span class="slds-checkbox">
+		            <input type="checkbox" name="options" id="{!v.apiName + '-checkbox'}" 
+		            		checked="{!v._selectedRecordsNumber == v.records.length}" onchange="{!c.handleSelectAll}"/>
+		            <label class="slds-checkbox__label" for="{!v.apiName + '-checkbox'}">
+		              <span class="slds-checkbox--faux"></span>
+		              <span class="slds-form-element__label slds-assistive-text">Select All</span>
+		            </label>
+		          </span>			        
+		        </div>
+		      </th>
+		      <aura:iteration items="{!v.headers}" var="h">
+		      	<th class="slds-text-title--caps" scope="col">
+		        	<div class="slds-truncate" title="{!h.label}">{!h.label}</div>
+		      	</th>
+		      </aura:iteration>
+		      
+		    </tr>
+		  </thead>	
+		  <tbody>
+			  <aura:iteration items="{!v.records}" var="t">
+			  	<tr class="{!t._isSelected ? 'slds-is-selected' : ''}">
+			  	
+				  <td class="slds-text-align--right" scope="row" data-label="Select">
+		        	<div class="slds-th__action slds-th__action--form" title="Select">
+			          <span class="slds-checkbox">
+			            <input type="checkbox" name="options" id="{!t.Id + 'checkbox'}" checked="{!t._isSelected}" 
+			            	   data-recordid="{!t.Id}" onchange="{!c.handleTCselect}"/>
+			            <label class="slds-checkbox__label" for="{!t.Id + 'checkbox'}">
+			              <span class="slds-checkbox--faux"></span>
+			              <span class="slds-form-element__label slds-assistive-text">Select</span>
+			            </label>
+			          </span>
+			        </div>		        
+			      </td>
+			  	
+			  	<aura:iteration items="{!v.headers}" var="h">
+			      <td role="gridcell">
+			       <div class="slds-truncate">
+		        		<c:RecordFieldValue_cmp fieldApiName="{!h.apiName}" record="{!t}"/>
+		        	</div>
+			      </td>
+		      	</aura:iteration>
+
+			  	
+			  	
+			  	</tr>
+			  </aura:iteration>
+		  </tbody>
+		</table>
+		</aura:if>
+		<aura:if isTrue="{!v.records.length eq 0}">
+			No records for approve
+		</aura:if>
+	</div>
+
+	
+</aura:component>
