@@ -17,10 +17,6 @@
 		<members>RecordFieldValue_cmp</members>
 		<members>Remote_Abstract_cmp</members>
         <name>AuraDefinitionBundle</name>
-    </types>
-	<types>
-        <members>ApproveInfo.Account</members>
-        <name>CustomMetadata</name>
-    </types>
+    </types>	
     <version>38.0</version>
 </Package>
