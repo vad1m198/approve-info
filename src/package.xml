@@ -8,6 +8,10 @@
         <members>Approve_Info_page</members>
         <name>ApexPage</name>
     </types>
+	<types>
+        <members>*</​members>
+        <name>Custom​Metadata</name>
+    </types>
     <types>
         <members>Object_Details_cmp</members>
 		<members>LoadDataRemote_evt</members>
