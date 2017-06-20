@@ -17,7 +17,7 @@
 		var oTargetCmp = oEvent.getParam("component");
 		console.log('load data >>> ', oParams);
 		var fHandleSuccess = oResult => {
-			if (oTargetCmp) oTargetCmp.handleRemoteSuccess(oResult);
+			if (oTargetCmp) oTargetCmp.handleRemoteSuccess(oResult,oParams.event);
 			
 			if(oParams.event == 'processRecords') {
 				var aRecords = oCmp.get("v.approveInfo");

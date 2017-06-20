@@ -2,6 +2,7 @@
 
 	<aura:method name="handleRemoteSuccess" action="{!c.handleRemoteSuccess}" description="method to handle success remote call"> 
 	    <aura:attribute name="response" type="Object[]"/>
+	    <aura:attribute name="event" type="String"/>
 	</aura:method>
 	
 	<aura:method name="handleRemoteError" action="{!c.handleRemoteError}" description="method to handle failed remote call"> 

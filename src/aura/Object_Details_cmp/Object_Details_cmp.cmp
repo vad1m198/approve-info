@@ -4,11 +4,32 @@
 	<aura:attribute name="recordIds" type="String[]" access="public"/>
 	
 	<aura:attribute name="records" type="Object[]" access="private"/>
+	<aura:attribute name="recordsToShow" type="Object[]" access="private"/>
 	<aura:attribute name="headers" type="Object[]" access="private"/>
-
-
-	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
-			
-	<c:RecordsTable_cmp headers="{!v.headers}" records="{!v.records}" apiName="{!v.apiName}"/>
 	
+	<aura:attribute name="_selectedRecordsNumber" type="Integer" access="private" default="0"/>
+	<aura:attribute name="_pageNumber" type="Integer" access="private" default="1"/>
+	<aura:attribute name="_recordsOnPageNumber" type="Integer" access="private" default="4"/>
+	
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+	
+	<div>
+		<aura:if isTrue="{!v.records.length gt 0}">
+		<div class="page-buttons">
+			<lightning:button variant="neutral" label="Previous" onclick="{!c.previousPage}" disabled="{!v._pageNumber eq 1}"/>
+			<lightning:button variant="neutral" label="Next" onclick="{!c.nextPage}" disabled="{!v.records.length le mult(v._pageNumber,v._recordsOnPageNumber)}"/>
+		</div>
+		
+		<div class="process-area slds-m-bottom--small">
+			<lightning:textarea class="comments-area" aura:Id="comments-area" label="Comments" maxlength="80"/>
+			<div class="buttons slds-m-left--x-small">
+				<lightning:button variant="neutral" label="Approve" onclick="{!c.processRecords}" disabled="{!v._selectedRecordsNumber eq 0}"/>
+				<lightning:button class="slds-m-top--xx-small" variant="neutral" label="Reject" 
+								  onclick="{!c.processRecords}" disabled="{!v._selectedRecordsNumber eq 0}"/>
+			</div>
+		</div>
+		<div onclick="{!c.handleTableClick}"><c:RecordsTable_cmp headers="{!v.headers}" records="{!v.recordsToShow}" apiName="{!v.apiName}"/></div>
+		</aura:if>
+	</div>
+
 	</aura:component>

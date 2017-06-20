@@ -1,14 +1,2 @@
-.THIS .process-area {
-	display:flex;
-}
-
-.THIS .process-area .buttons {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: stretch;
-}
-
-.THIS .process-area .comments-area {
-	width: 30%
+.THIS {	
 }
