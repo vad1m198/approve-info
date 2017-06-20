@@ -9,7 +9,7 @@
         <name>ApexPage</name>
     </types>
 	<types>
-        <members>*</​members>
+        <members>ApproveInfo.Account</​members>
         <name>Custom​Metadata</name>
     </types>
     <types>
