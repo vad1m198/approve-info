@@ -27,8 +27,8 @@
 			} else {
 				var oResponse = params.response;
 				var aRecords = JSON.parse(params.response.aRecords);			
-				var oFieldsDescribe = JSON.parse(oResponse.oFieldsDescribe);
-				var aHeaders = oResponse.aFields.split(",").map(field => {return {apiName:field,label:oFieldsDescribe[field]}})
+				var oApiNameToLable = JSON.parse(oResponse.oApiNameToLable);
+				var aHeaders = Object.keys(oApiNameToLable).map(field => {return {apiName:field,label:oApiNameToLable[field]}})
 				
 				console.log('aRecords >>> ',aRecords);
 				console.log('aHeaders >>> ',aHeaders);

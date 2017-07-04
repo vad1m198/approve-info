@@ -18,5 +18,9 @@
 		<members>Remote_Abstract_cmp</members>
         <name>AuraDefinitionBundle</name>
     </types>	
+	<types>
+        <members>ApproveInfoConfig__c</members>
+        <name>CustomObject</name>
+    </types>
     <version>38.0</version>
 </Package>

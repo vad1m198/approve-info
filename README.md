@@ -6,8 +6,7 @@
 </a>
 
 This is simple lightning component to show all records pending for approval on one page.
-This component uses custom metadata type for customization. Before deploy this code first create
-custom metadata type with name 'ApproveInfo' and add text field 'FieldsToShow'.
-Create one ApproveInfo_mdt record for each object to show on the page. Populate Label with Object apiName
-and FieldsToShow with comma separated apiNames of fields to show on the page for current object. 
-Page does not support relationship fields.
+This component needs setinngs. Code contain 'ApproveInfoConfig__c' custom object to config component.
+Create one ApproveInfoConfig__c record for each object for each user to show on the page. Populate Object_apiName__c with Object apiName,
+Fields_To_show_json__c with object in JSON format which represents map of field apiName to Label to show on the page. 
+Component supports relationship fields.

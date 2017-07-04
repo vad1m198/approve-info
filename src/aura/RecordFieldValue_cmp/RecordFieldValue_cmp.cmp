@@ -1,4 +1,4 @@
-<aura:component>
+<aura:component >
 
 	<aura:attribute name="fieldApiName" type="String" access="public"/>
 	<aura:attribute name="record" type="Object" access="public"/>

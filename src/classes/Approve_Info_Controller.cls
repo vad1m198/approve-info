@@ -49,42 +49,37 @@ public with sharing class Approve_Info_Controller {
     	if(apiName == null) throw new AuraHandledException('apiName parameter is empty');
     	Set<String> recordIds = (Set<String>)JSON.deserialize(Approve_Info_Controller.getRequest('recordIds'),Set<String>.class);
     	
-    	List<ApproveInfo__mdt> infoLst = [SELECT MasterLabel,FieldsToShow__c FROM ApproveInfo__mdt WHERE MasterLabel = :apiName];
+    	List<ApproveInfoConfig__c> infoLst = [SELECT Fields_To_show_json__c FROM ApproveInfoConfig__c 
+    	  									   WHERE Object_apiName__c = :apiName 
+    	  									   	 AND (Assigned_To__c =:UserInfo.getUserId() OR isDefault__c = true)
+    	  									   	 ORDER BY Assigned_To__c NULLS LAST];
+    	
     	if(infoLst.isEmpty()) {
-    		throw new AuraHandledException('no ApproveInfo__mdt records were found for ' + apiName);
+    		throw new AuraHandledException('no ApproveInfoConfig__c records were found for ' + apiName);
     	}
     	
-    	ApproveInfo__mdt info = infoLst.get(0);
-    	String queryStr = 'SELECT ' + info.FieldsToShow__c + ' FROM ' + apiName + ' WHERE ID IN:recordIds';
+    	ApproveInfoConfig__c info = infoLst.get(0);
+    	Map<String,String> mapApiNameToLable = (Map<String,String>)JSON.deserialize(info.Fields_To_show_json__c,Map<String,String>.class);
+    	String queryStr = 'SELECT ' + String.join(new List<String>(mapApiNameToLable.keySet()),',') + ' FROM ' + apiName + ' WHERE ID IN:recordIds';
     	
     	SObjectType objType = Schema.getGlobalDescribe().get(apiName);
     	
     	if(objType == null) throw new AuraHandledException('Invalid api name ' + apiName);
-    	
-		Map<String,Schema.SObjectField> mfields = objType.getDescribe().fields.getMap();
-		
-		Map<String,String> mapFieldApiToLabel = new Map<String,String>();
-		
-		for(String s: info.FieldsToShow__c.split(',')) {
-			Schema.DescribeFieldResult dfr = mfields.get(s).getDescribe();
-			mapFieldApiToLabel.put(dfr.getName(), dfr.getLabel());
-		}
-		
+    			
     	oResult.put('status', 'success');
     	oResult.put('aRecords', JSON.serialize(Database.query(queryStr)));
-    	oResult.put('aFields', info.FieldsToShow__c);
-    	oResult.put('oFieldsDescribe', JSON.serialize(mapFieldApiToLabel));
+    	oResult.put('oApiNameToLable', JSON.serialize(mapApiNameToLable));
     	return oResult;
     }
     
     private static Map<String,String> getApproveInfo(){
     	Map<String,String> oResult = new Map<String,String>();
-    	
     	List<ApproveInfo> aRecords = new List<ApproveInfo>();
     	
-    	Set<String> objectsApiNames = new Set<String>();    	
-    	for(ApproveInfo__mdt mdtObj: [SELECT MasterLabel FROM ApproveInfo__mdt]) {
-    		objectsApiNames.add(mdtObj.MasterLabel);
+    	Set<String> objectsApiNames = new Set<String>();
+    	for(ApproveInfoConfig__c configObj: [SELECT Object_apiName__c FROM ApproveInfoConfig__c 
+    										  WHERE Assigned_To__c =:UserInfo.getUserId() OR isDefault__c = true]) {
+    		objectsApiNames.add(configObj.Object_apiName__c);
     	}
     	
     	for(ProcessInstanceWorkitem item: [SELECT Id,ProcessInstance.TargetObjectId,ActorId 

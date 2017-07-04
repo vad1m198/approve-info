@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>Assigned_To__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <externalId>false</externalId>
+        <label>Assigned To</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>ApproveInfoConfigs</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Fields_To_show_json__c</fullName>
+        <externalId>false</externalId>
+        <label>Fields To show json</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Object_apiName__c</fullName>
+        <externalId>false</externalId>
+        <label>Object apiName</label>
+        <length>100</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>isDefault__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>isDefault</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>ApproveInfoConfig</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>A-{0000}</displayFormat>
+        <label>ApproveInfoConfig Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>ApproveInfoConfigs</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>Assigned_record_could_not_be_dafault</fullName>
+        <active>true</active>
+        <errorConditionFormula>NOT( ISBLANK( Assigned_To__c ) )  &amp;&amp;  isDefault__c == true</errorConditionFormula>
+        <errorMessage>Assigned record could not be default</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Fields_to_show_is_required</fullName>
+        <active>true</active>
+        <errorConditionFormula>ISBLANK(Fields_To_show_json__c)</errorConditionFormula>
+        <errorDisplayField>Fields_To_show_json__c</errorDisplayField>
+        <errorMessage>fields to show is required</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>assgined_to_required_for_non_def</fullName>
+        <active>true</active>
+        <errorConditionFormula>isDefault__c  = false  &amp;&amp;  ISBLANK(Assigned_To__c)</errorConditionFormula>
+        <errorDisplayField>Assigned_To__c</errorDisplayField>
+        <errorMessage>If isDefault = false then assigned to should be filled in</errorMessage>
+    </validationRules>
+</CustomObject>
