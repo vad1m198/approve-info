@@ -15,7 +15,7 @@
 		<members>Approve_Info_app</members>
 		<members>Object_Details_cmp</members>
 		<members>RecordFieldValue_cmp</members>
-		<members>RecordTable_cmp</members>
+		<members>RecordsTable_cmp</members>
 		<members>Remote_Abstract_cmp</members>
         <name>AuraDefinitionBundle</name>
     </types>	
