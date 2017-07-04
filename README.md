@@ -6,7 +6,7 @@ This component needs settings. Code contain 'ApproveInfoConfig__c' custom object
 Create one ApproveInfoConfig__c record for each object for each user to show on the page. Populate Object_apiName__c with Object apiName,
 Fields_To_show_json__c with object in JSON format which represents map of field apiName to Label to show on the page. 
 ```
-{"Name":"Name","Fax":"Fax","Owner.Name":"Owner"}
+{"Name":"NameLabel","Fax":"Faxlabel","Owner.Name":"Owner"}
 ```
 Also record could be marked as isDefault to use for all users
 
